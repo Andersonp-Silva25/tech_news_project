@@ -1,14 +1,15 @@
 from tech_news.database import search_news
 import re
+from datetime import datetime
 
 
 def ignore_sensitive_case(title):
     return re.compile(title, re.I)
 
 
-def create_formatted_news_list(list_news_by_title):
+def create_formatted_news_list(array):
     news_list = []
-    for news in list_news_by_title:
+    for news in array:
         news = (news["title"], news["url"])
         news_list.append(news)
     return news_list
@@ -23,7 +24,13 @@ def search_by_title(title):
 
 # Requisito 8
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    try:
+        new_date = datetime.strptime(date, "%Y-%m-%d")
+        converted_date = new_date.strftime("%d/%m/%Y")
+        get_news = search_news({"timestamp": converted_date})
+        return create_formatted_news_list(get_news)
+    except ValueError:
+        raise ValueError("Data inválida")
 
 
 # Requisito 9
