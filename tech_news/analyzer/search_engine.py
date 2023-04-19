@@ -35,4 +35,6 @@ def search_by_date(date):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    formatted_category = ignore_sensitive_case(category)
+    get_news_by_category = search_news({"category": formatted_category})
+    return create_formatted_news_list(get_news_by_category)
